@@ -10,7 +10,7 @@ module.exports = (function(){
   var output = {};
 
   output.populate = function populate(room){
-    console.log('CreepPopulator.populate()');
+    // console.log('CreepPopulator.populate()');
 
     fail_early.on(
       function(){ return !(room instanceof Room) },
@@ -33,11 +33,11 @@ module.exports = (function(){
       var item = checklist[i];
 
       if( !checklist_item_fulfilled(spawn, item) ){
-        console.log(
-          'CreepPopulator.populate_spawn / checklist item not fulfilled',
-          spawn,
-          item
-        );
+        // console.log(
+        //   'CreepPopulator.populate_spawn / checklist item not fulfilled',
+        //   spawn,
+        //   item
+        // );
 
         create_creep_for_checklist_item(spawn, item);
 

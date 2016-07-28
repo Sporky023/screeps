@@ -5,12 +5,12 @@ var Creeps = require('creeps');
 
 var Assigner = {
   least_assigned_source_id: function(room){
-    console.log('Assigner.least_assigned_source_id()');
+    // console.log('Assigner.least_assigned_source_id()');
 
     var stc = source_ids_to_creep_ids(room);
-    console.log('Assigner.least_assigned_source_id / got stc');
+    // console.log('Assigner.least_assigned_source_id / got stc');
     var source_ids = Sources.ids_in_room(room);
-    console.log('Assigner.least_assigned_source_id / got source_ids');
+    // console.log('Assigner.least_assigned_source_id / got source_ids');
 
     if(all_values_have_equal_length(stc)){
 
@@ -22,15 +22,15 @@ var Assigner = {
 }
 
 function source_ids_to_creep_ids(room){
-  console.log('Assigner.source_ids_to_creep_ids('+room+')');
+  // console.log('Assigner.source_ids_to_creep_ids('+room+')');
 
   var output = {};
 
   var source_ids = Sources.ids_in_room(room);
-  console.log(
-    'Assigner.source_ids_to_creep_ids / Sources.in_room(room) = ',
-    Sources.in_room(room)
-  );
+  // console.log(
+  //   'Assigner.source_ids_to_creep_ids / Sources.in_room(room) = ',
+  //   Sources.in_room(room)
+  // );
 
   // console.log('Assigner.source_ids_to_creep_ids / source_ids = ', source_ids);
 
@@ -46,7 +46,7 @@ function source_ids_to_creep_ids(room){
     });
   });
 
-  console.log('Assigner.source_ids_to_creep_ids / output = ', output);
+  // console.log('Assigner.source_ids_to_creep_ids / output = ', output);
 
   return output;
 }

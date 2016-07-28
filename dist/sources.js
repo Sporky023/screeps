@@ -4,7 +4,7 @@ var fail_early = require('fail_early');
 
 var Sources = {
   ids_in_room: function(room){
-    console.log('Sources.ids_in_room('+room+')');
+    // console.log('Sources.ids_in_room('+room+')');
 
     fail_early.on(
       function(){ return !(room instanceof Room) },
@@ -18,7 +18,7 @@ var Sources = {
       function(source){ return source.id; } 
     );
 
-    console.log('Sources.ids_in_room / finished with output = ', output);
+    // console.log('Sources.ids_in_room / finished with output = ', output);
 
     return output;
   },
@@ -41,7 +41,7 @@ var Sources = {
   },
 
   in_room: function in_room(room){
-    console.log('Sources.in_room('+room+')');
+    // console.log('Sources.in_room('+room+')');
 
     fail_early.on(
       function(){

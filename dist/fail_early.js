@@ -1,15 +1,13 @@
 var fail_early = {
   on: function(func, message = null){
     if(func()){
-      console.log('fail_early.on / func() returned false - failing');
+      console.log('Failed: '+message); 
 
       var stack = new Error().stack;
 
       console.log(stack);
-      // console.log('stack: '+"\n"+stack.join("\n")+"\n\n");
       console.log("\n\n");
 
-      console.log('Failed: '+message); 
     }
   }
 }

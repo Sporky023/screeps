@@ -1,3 +1,4 @@
+var fail_early = require('fail_early');
 var each = require('each');
 var HarvestActions = require('actions.harvest');
 var Sources = require('sources');
