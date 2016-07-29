@@ -5,13 +5,11 @@ var Creeps = require('creeps');
 var CreateCreepService = require('service.create_creep');
 
 module.exports = (function(){
-  var roleDemand = { builder: 1, upgrader: 1, harvester: 2 };
+  var roleDemand = { builder: 1, upgrader: 1, harvester: 4 };
 
   var output = {};
 
   output.populate = function populate(room){
-    // console.log('CreepPopulator.populate()');
-
     fail_early.on(
       function(){ return !(room instanceof Room) },
       'CreepPopulator.populate / room is not a Room, got '+room
@@ -33,12 +31,6 @@ module.exports = (function(){
       var item = checklist[i];
 
       if( !checklist_item_fulfilled(spawn, item) ){
-        // console.log(
-        //   'CreepPopulator.populate_spawn / checklist item not fulfilled',
-        //   spawn,
-        //   item
-        // );
-
         create_creep_for_checklist_item(spawn, item);
 
         return;

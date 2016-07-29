@@ -10,7 +10,7 @@ module.exports = (function(){
   output.approach_and_harvest_nearest =
     function approach_and_harvest_nearest(creep){
     
-    faile_early.on(
+    fail_early.on(
       function(){ return !(creep instanceof Creep); },
       'HarvestActions.approach_and_harvest / bad creep, got '+creep
     );

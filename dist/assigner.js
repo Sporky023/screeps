@@ -1,98 +1,53 @@
+var fail_early = require('fail_early');
 var map = require('map');
 var each = require('each');
 var Sources = require('sources');
 var Creeps = require('creeps');
 
-var Assigner = {
-  least_assigned_source_id: function(room){
-    // console.log('Assigner.least_assigned_source_id()');
-
-    var stc = source_ids_to_creep_ids(room);
-    // console.log('Assigner.least_assigned_source_id / got stc');
-    var source_ids = Sources.ids_in_room(room);
-    // console.log('Assigner.least_assigned_source_id / got source_ids');
-
-    if(all_values_have_equal_length(stc)){
-
-      return source_ids[0];
-    } else {
-      return key_where_min_value_length(stc);
-    }
-  }
-}
-
-function source_ids_to_creep_ids(room){
-  // console.log('Assigner.source_ids_to_creep_ids('+room+')');
-
+module.exports = (function(){
   var output = {};
 
-  var source_ids = Sources.ids_in_room(room);
-  // console.log(
-  //   'Assigner.source_ids_to_creep_ids / Sources.in_room(room) = ',
-  //   Sources.in_room(room)
-  // );
+  output.next_source_id = function next_source_id(room){
+    fail_early.on(
+      function(){ return !(room instanceof Room) },
+      'Assigner.next_source_id / bad room, got '+room
+    )
 
-  // console.log('Assigner.source_ids_to_creep_ids / source_ids = ', source_ids);
-
-  var creeps = Creeps.in_room(room);
-
-  each(source_ids, function(source_id){
-    output[source_id] = [];
-
-    each(creeps, function(creep){
-      if(creep.source_id == source_id){
-        output[source_id].push(creep.name);
-      }
-    });
-  });
-
-  // console.log('Assigner.source_ids_to_creep_ids / output = ', output);
-
-  return output;
-}
-
-function all_values_have_equal_length(object){
-  var seen = null;
-
-  for(var propname in object){
-    var value = object[propname];
-
-    if(typeof(seen) == 'number' && value.length != seen){
-      return false;
-    } else {
-      seen = value.length;
-    }
+    return Sources.ids_in_room(room).sort()[next_source_index(room)];
   }
 
-  return true;
+  var next_source_index = function next_source_index(room){
+    var output;
+    var last_source_index = get_last_source_index_from_spawn(room);
+
+    if(typeof(last_source_index) == 'number'){
+      if(last_source_index >= Sources.ids_in_room(room).length - 1){
+        output = 0;
+      } else {
+        output = last_source_index + 1;
+      }
+
+    } else {
+      output = 0;
+    }
+
+    set_last_source_index_to_spawn(room, output);
+
+    return output;
+  }
+
+  return output;
+})();
+
+function get_last_source_index_from_spawn(room){
+  var spawn = room.find(FIND_MY_SPAWNS)[0];
+
+  return spawn.memory.assigner_last_source_index;
 }
 
+function set_last_source_index_to_spawn(room, value){
+  var spawn = room.find(FIND_MY_SPAWNS)[0];
 
-// function sources_to_creeps(room){
-//   var output = {};
+  spawn.memory.assigner_last_source_index = value;
+}
 
-//   each(Sources.in_room(room), function(source){
-//     output[source.id] = [];
-
-//     each(Creeps.in_room(room), function(creep){
-//       if(creep.room.id == room.id){
-//         output[source.id].push(creep);
-//       }
-//     })
-//   });
-// }
-
-  // bestSpawnToMine: function(room){
-  //   if( spawns_currently_assigned_equally ){
-  //     return_first();
-  //   }  else {
-  //     return_one_with_lowest_assigned_count();
-  //   }
-  //   each(creeps_in_room(room), function(creep){
-
-  //   });
-  // }
-
-// }
-
-module.exports = Assigner;

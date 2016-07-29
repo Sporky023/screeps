@@ -1,7 +1,11 @@
 var fail_early = {
-  on: function(func, message = null){
+ on: function(func, message = null){
     if(func()){
-      console.log('Failed: '+message); 
+      if(typeof(message) == 'string'){
+        console.log('Failed: '+message); 
+      } else if(typeof(message) == 'function'){
+        message();
+      }
 
       var stack = new Error().stack;
 
