@@ -21,22 +21,8 @@ module.exports = (function(){
       return distance_between(spawn.pos, source.pos);
     });
 
-    // console.log('spawn', spawn.pos);
-
-    // console.log(
-    //   'sources', JSON.stringify(
-    //     map(sources, function(source){
-    //       return [source.id, source.pos, distance_between(spawn.pos, source.pos)];
-    //     })
-    //   ) 
-    // );
-
     var source_ids = map(sources, 'id');
-    // var source_ids = map(sources, function(source){ return source.id});
-
-    // console.log('source_ids', JSON.stringify(source_ids));
     return source_ids[next_source_index(spawn)];
-    // return Sources.ids_in_room(room).sort()[next_source_index(room)];
   }
 
   output.increment_next_source_id = function increment_next_source_id(spawn){
