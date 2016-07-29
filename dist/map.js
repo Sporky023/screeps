@@ -4,7 +4,17 @@ module.exports = function(list, iterator){
   var output = [];
 
   each(list, function(item){
-    output.push( iterator(item) );
+    if(typeof(iterator) == 'string'){
+      output.push( item[iterator] );
+
+    } if(typeof(iterator) == 'function'){
+      output.push( iterator(item) );
+
+    } else {
+      throw new Error(
+        'map:  iterator must be a string or function, got: '+iterator
+      );
+    }
   });
   
   return output;
