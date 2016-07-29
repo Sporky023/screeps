@@ -16,11 +16,20 @@ module.exports = (function(){
       'CreateCreepService.create_creep / bad spawn.room, got '+spawn.room
     )
 
-    spawn.createCreep(
+    var result = spawn.createCreep(
       [WORK, CARRY, MOVE],
       role+Creeps.count(),
-      { role: role, source_id: Assigner.next_source_id(spawn.room) }
+      {
+        role: role,
+        source_id: Assigner.next_source_id(spawn) 
+      }
     );
+
+    console.log('create creep result: '+result);
+
+    if(typeof(result) == 'string'){
+      Assigner.increment_next_source_id(spawn)
+    }
   }
 
   return output;

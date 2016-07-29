@@ -1,3 +1,5 @@
+var fail_early = require('fail_early');
+
 module.exports = (function(){
   var output = {}
 

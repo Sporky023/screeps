@@ -7,7 +7,7 @@ module.exports = function(list, iterator){
     if(typeof(iterator) == 'string'){
       output.push( item[iterator] );
 
-    } if(typeof(iterator) == 'function'){
+    } else if(typeof(iterator) == 'function'){
       output.push( iterator(item) );
 
     } else {

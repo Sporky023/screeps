@@ -5,8 +5,6 @@ var Creeps = require('creeps');
 var CreateCreepService = require('service.create_creep');
 
 module.exports = (function(){
-  var roleDemand = { builder: 1, upgrader: 1, harvester: 4 };
-
   var output = {};
 
   output.populate = function populate(room){
@@ -22,9 +20,9 @@ module.exports = (function(){
 
   function populate_spawn(spawn){
     var checklist = [
-      { role: 'harvester', count: 3 },
-      { role: 'upgrader', count : 1 },
-      { role: 'builder', count: 1 }
+      { role: 'harvester', count: 7 },
+      { role: 'upgrader', count : 2 },
+      { role: 'builder', count: 2 }
     ];
 
     for(var i = 0; i < checklist.length; i++){

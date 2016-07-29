@@ -6,12 +6,15 @@ var Sources = require('sources');
 
 var roleHarvester = {
   run: function(creep, spawn){
-    if(creep.carry.energy == creep.carryCapacity){
+    if(
+      creep.carry.energy == creep.carryCapacity &&
+      creep.memory.mode != 'delivering'
+    ){
       creep.say('delivering');
       creep.memory.mode = 'delivering';
     }
 
-    if(creep.carry.energy == 0 || creep.memory.mode == undefined){
+    if(creep.carry.energy == 0 && creep.memory.mode != 'harvesting'){
       creep.say('harvesting');
       creep.memory.mode = 'harvesting';
     }
@@ -29,7 +32,8 @@ var roleHarvester = {
 function approachAndHarvestAssignedOrNearest(creep){
   if(typeof(creep.memory.source_id) == 'string'){
     HarvestActions.approach_and_harvest(
-      creep, Sources.find(creep.memory.source_id, creep)
+      creep,
+      Sources.find(creep.memory.source_id, creep.room)
     );
 
   } else {
