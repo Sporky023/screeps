@@ -20,16 +20,13 @@ module.exports = (function(){
 
   function populate_spawn(spawn){
     var checklist = [
-      { role: 'harvester', count: 10 },
+      { role: 'harvester', count: 7 },
+      { role: 'upgrader', count: 1 },
       { role: 'builder', count: 1 },
-      { role: 'harvester', count: 12 },
+      { role: 'harvester', count: 8 },
       { role: 'builder', count: 2 },
-      { role: 'harvester', count: 14 },
-      { role: 'upgrader', count : 1 },
-      // { role: 'harvester', count: 2 },
-      { role: 'upgrader', count : 2 },
-      { role: 'harvester', count: 16 },
-      { role: 'builder', count: 5 }
+      { role: 'harvester', count: 12 },
+      { role: 'builder', count: 3 }
     ];
 
     for(var i = 0; i < checklist.length; i++){
@@ -55,8 +52,7 @@ module.exports = (function(){
     var result = CreateCreepService.create_creep(spawn, item.role);
   }
 
-  return output
-}
-    )(); 
+  return output;
+})(); 
 
 
