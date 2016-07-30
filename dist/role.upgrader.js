@@ -1,5 +1,4 @@
-var withdrawEnergyFromNearestSpawn =
-  require('action.withdraw_energy_from_nearest_spawn');
+var actions = require('actions');
   
 var roleUpgrader = {
   run: function(creep){
@@ -12,7 +11,7 @@ var roleUpgrader = {
     }
 
     if(creep.memory.mode == 'energy-empty'){
-      withdrawEnergyFromNearestSpawn(creep);
+      actions.energy.acquire(creep);
     }
 
     if(creep.memory.mode == 'energy-full'){

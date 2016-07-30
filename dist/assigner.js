@@ -1,3 +1,5 @@
+var expect_class = require('expect_class');
+var select = require('select');
 var distance_between = require('distance_between');
 var sort_by = require('sort_by');
 var fail_early = require('fail_early');
@@ -5,9 +7,74 @@ var map = require('map');
 var each = require('each');
 var Sources = require('sources');
 var Creeps = require('creeps');
+var Quotas = require('quotas');
 
 module.exports = (function(){
   var output = {};
+
+  output.all_creep_source_ids = function all_creep_source_ids(room){
+    return map( Creeps.in_room(room), function(creep){
+      return {
+        creep_id: creep.id,
+        source_id: creep.source_id == undefined ? '<undefined>' : creep.source_id
+      };
+    });
+  }
+
+  output.harvester_allocation = function harvester_allocation(room){
+    return map( Sources.all(room), function(source){
+      return {
+        source_id: source.id,
+        pos: source.pos,
+        all_creeps_length: Creeps.all(room).length,
+
+        allocated: select( Creeps.all(room), function(creep){
+          return(
+            creep.memory.role == 'harvester' &&
+            creep.source_id == source.id
+          );
+        })
+      };
+    });
+  }
+
+  output.next_source_id2 = function next_source_id2(spawn){
+    // expect_class(spawn, Spawn, 'Assigner.next_source_id2');
+
+    var quota_to_fill = next_unfilled_quota(spawn);
+
+    if(typeof(quota_to_fill) == 'object'){
+      return quota_to_fill.source.id;
+    } else {
+      console.log('no quota!');
+    }
+  }
+
+  function next_unfilled_quota(spawn){
+    expect_class(spawn, Spawn);
+
+    var source_quotas = Quotas.source_to_harvester_count(spawn)
+
+    console.log('source_quotas', JSON.stringify(source_quotas));
+
+    for(var quota of source_quotas){
+      if(quota_unmet(spawn, quota) ){
+        return quota;
+      }
+    }
+  }
+
+  function quota_unmet(spawn, quota){
+    var harvester_count = select(
+      Creeps.in_role(spawn.room, 'harvester'),
+
+      function(creep){
+        return creep.memory.source_id == quota.source.id;
+      }
+    ).length;
+
+    return harvester_count < quota.harvester_count;
+  }
 
   output.next_source_id = function next_source_id(spawn){
     fail_early.on(
@@ -36,7 +103,6 @@ module.exports = (function(){
       output = last_source_index + 1;
     }
 
-    console.log('setting to '+output);
     set_last_source_index(spawn, output);
   }
 

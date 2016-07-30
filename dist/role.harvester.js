@@ -1,16 +1,29 @@
+var distance_between = require('distance_between');
 var fail_early = require('fail_early');
 var each = require('each');
 var HarvestActions = require('actions.harvest');
 var Sources = require('sources');
 
 var roleHarvester = {
-  run: function(creep, spawn){
+  run: function(creep){
+    var spawn = creep.room.find(FIND_MY_SPAWNS)[0];
+
     if(
       creep.carry.energy == creep.carryCapacity &&
-      creep.memory.mode != 'delivering'
+      creep.memory.mode != 'delivering' &&
+      spawn.energy < spawn.energyCapacity
     ){
       creep.say('delivering');
       creep.memory.mode = 'delivering';
+    }
+
+    if(
+      creep.carry.energy == creep.carryCapacity &&
+      creep.memory.mode != 'make space' &&
+      spawn.energy >= spawn.energyCapacity
+    ){
+      creep.say('make space');
+      creep.memory.mode = 'make space';
     }
 
     if(creep.carry.energy == 0 && creep.memory.mode != 'harvesting'){
@@ -24,6 +37,12 @@ var roleHarvester = {
 
     if(creep.memory.mode == 'harvesting'){
       approachAndHarvestAssignedOrNearest(creep);
+    }
+
+    if(creep.memory.mode == 'make space'){
+      if(distance_between(creep.pos, spawn.pos) < 4){
+        creep.moveTo(creep.pos.x + 1, creep.pos.y + 1);
+      }
     }
   }
 }

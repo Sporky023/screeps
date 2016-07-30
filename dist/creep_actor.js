@@ -13,7 +13,6 @@ var CreepActor = {
       if(creep.memory.disabled){
         creep.say('disabled');
       } else {
-        console.log('creep.pos', creep.pos);
         act_as_creep(creep);
       }
     });

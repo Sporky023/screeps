@@ -3,6 +3,10 @@ var fail_without_class = require('fail_without_class');
 var each = require('each');
 
 var Creeps = {
+  all: function(room){
+    return Creeps.in_room(room);
+  },
+
   first: function(){
     return creeps_as_list()[0];
   },
@@ -26,6 +30,12 @@ var Creeps = {
 
     return output;
   },
+
+  count_in_role: function(room, role){
+    return Creeps.in_role(room, role).length;
+  },
+
+  in_role: function(room, role){ Creeps.in_room_in_role(room, role); },
 
   in_room_in_role: function(room, role){
     fail_early.on(

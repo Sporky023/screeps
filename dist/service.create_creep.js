@@ -1,3 +1,4 @@
+var autoincrement = require('autoincrement');
 var fail_early = require('fail_early');
 var Creeps = require('creeps');
 var Assigner = require('assigner');
@@ -18,18 +19,18 @@ module.exports = (function(){
 
     var result = spawn.createCreep(
       [WORK, CARRY, MOVE],
-      role+Creeps.count(),
+      role+'-'+autoincrement(),
       {
         role: role,
-        source_id: Assigner.next_source_id(spawn) 
+        source_id: Assigner.next_source_id2(spawn) 
       }
     );
-
-    console.log('create creep result: '+result);
 
     if(typeof(result) == 'string'){
       Assigner.increment_next_source_id(spawn)
     }
+
+    return result;
   }
 
   return output;
