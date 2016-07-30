@@ -4,6 +4,8 @@ var Structures = require('structures');
   
 var roleBuilder = {
   run: function(creep){
+    console.log('hello from a branch');
+
     if(creep.carry.energy == 0 || creep.memory.mode == undefined){
       creep.memory.mode = 'energy-empty';
     }
