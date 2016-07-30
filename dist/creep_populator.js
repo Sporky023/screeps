@@ -20,13 +20,12 @@ module.exports = (function(){
 
   function populate_spawn(spawn){
     var checklist = [
-      { role: 'harvester', count: 13 },
+      { role: 'harvester', count: 10 },
       { role: 'builder', count: 1 },
-      { role: 'harvester', count: 3 },
+      { role: 'harvester', count: 12 },
+      { role: 'builder', count: 2 },
       { role: 'upgrader', count : 1 },
-      { role: 'harvester', count: 4 },
-      { role: 'builder', count: 1 },
-      { role: 'harvester', count: 2 },
+      // { role: 'harvester', count: 2 },
       { role: 'upgrader', count : 2 },
     ];
 

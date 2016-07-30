@@ -20,22 +20,28 @@ var Quotas = (function(){
 
     expect_class(spawn, Spawn);
 
-    return map( sources_for_quotas(spawn),
+    var output = map( sources_for_quotas(spawn),
       function(source){
         var dist = distance_between(source.pos, spawn.pos);
 
-        return {
+        var output = {
           source_id: source.id,
-          source: source,
           distance: dist,
           harvester_count: distance_to_harvester_quota(dist)
         };
+
+        return output;
       }
     );
+
+    console.log('Quotas.source_to_harvester_count / output',
+      JSON.stringify(output));
+
+    return output;
   }
 
   function distance_to_harvester_quota(distance){
-    return (distance / 5) + 2 ;
+    return (distance / 5) + 2;
   }
 
   function sources_for_quotas(spawn){

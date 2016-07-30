@@ -6,6 +6,7 @@ var ConstructionFulfillment = require('construction_fulfillment');
 var Creeps = require('creeps');
 var Sites = require('sites');
 var Quotas = require('quotas');
+var Structures = require('structures');
 
 var Construction = (function(){
   var pub = {};
@@ -14,14 +15,14 @@ var Construction = (function(){
   var max_road_sites = 4;
 
   pub.plan = function plan(room){
-    // if( should_build_roads(room) ){
-    //   make_road_for_every_creep(room);
-    // }
+    if( should_build_roads(room) ){
+      make_road_for_every_creep(room);
+    }
 
     // if(true){
-    // // if( too_many_road_sites(room) ){
-    //   destroy_a_road_site(room);
-    // }
+    if( too_many_road_sites(room) ){
+      destroy_a_road_site(room);
+    }
 
     var quota = Quotas.extensions(room);
     var quota_fulfiller = ConstructionFulfillment.fulfill(room, quota);
@@ -29,7 +30,7 @@ var Construction = (function(){
   }
 
   function too_many_road_sites(room){
-    return road_sites(room).length > man_road_sites;
+    return road_sites(room).length > max_road_sites;
   }
 
   function destroy_a_road_site(room){ road_sites(room)[0].remove(); }
@@ -79,16 +80,23 @@ var Construction = (function(){
 
 
   function should_build_roads(room){
-    // console.log(
-    //   'Construction.should_build_roads: Sites.count',
-    //   Sites.count(room),
-    //   Creeps.count_in_role(room, 'builder') * 5
-    // );
+    if(
+      room.controller.level >= 2 &&
+      Structures.by_type(room, 'extension').length < 5
+    ){
 
-    return( Sites.count_by_structureType(room, 'road') < min_road_sites );
+      return false
+
+    } else {
+      return(
+        Sites.count_by_structureType(room, 'road') <
+        min_road_sites 
+      );
+    }
   }
 
   return pub;
-})();
+}
+    )();
 
 module.exports = Construction;

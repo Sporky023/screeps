@@ -17,17 +17,23 @@ module.exports = (function(){
       'CreateCreepService.create_creep / bad spawn.room, got '+spawn.room
     )
 
+    var mem = {
+      role: role, source_id: Assigner.next_source_id2(spawn)
+    };
+
     var result = spawn.createCreep(
       [WORK, CARRY, MOVE],
       role+'-'+autoincrement(),
-      {
-        role: role,
-        source_id: Assigner.next_source_id2(spawn) 
-      }
+      mem
     );
 
+
     if(typeof(result) == 'string'){
-      Assigner.increment_next_source_id(spawn)
+      var creep = Game.creeps[result];
+      console.log('creep.memory == ', creep.memory);
+      console.log(
+        'created_creep with source_id: '+creep.memory.source_id
+      );
     }
 
     return result;

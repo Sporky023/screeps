@@ -6,8 +6,6 @@ var each = function each(list, func){
       func(prop);
     }
 
-  } else if (typeof(list) == 'array'){
-    console.log('each / array not implemented');
   }
 }
 

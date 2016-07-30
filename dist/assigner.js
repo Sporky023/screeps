@@ -42,12 +42,15 @@ module.exports = (function(){
     // expect_class(spawn, Spawn, 'Assigner.next_source_id2');
 
     var quota_to_fill = next_unfilled_quota(spawn);
+    var output;
 
     if(typeof(quota_to_fill) == 'object'){
-      return quota_to_fill.source.id;
-    } else {
-      console.log('no quota!');
+      output = quota_to_fill.source_id;
     }
+
+    console.log('Assigner.next_source_id2 / output = '+output);
+
+    return output;
   }
 
   function next_unfilled_quota(spawn){
@@ -55,7 +58,7 @@ module.exports = (function(){
 
     var source_quotas = Quotas.source_to_harvester_count(spawn)
 
-    console.log('source_quotas', JSON.stringify(source_quotas));
+    // console.log('source_quotas', JSON.stringify(source_quotas));
 
     for(var quota of source_quotas){
       if(quota_unmet(spawn, quota) ){
@@ -65,15 +68,16 @@ module.exports = (function(){
   }
 
   function quota_unmet(spawn, quota){
-    var harvester_count = select(
-      Creeps.in_role(spawn.room, 'harvester'),
+    var creeps = Creeps.in_role(spawn.room, 'harvester');
 
+    var harvester_count = select( creeps,
       function(creep){
-        return creep.memory.source_id == quota.source.id;
+        return creep.memory.source_id == quota.source_id;
       }
     ).length;
 
-    return harvester_count < quota.harvester_count;
+    var output = harvester_count < quota.harvester_count; 
+    return output;
   }
 
   output.next_source_id = function next_source_id(spawn){
@@ -89,6 +93,8 @@ module.exports = (function(){
     });
 
     var source_ids = map(sources, 'id');
+    var output = source_ids[next_source_index(spawn)];
+    console.log('Assigner.next_source_id2 / output = '+ output);
     return source_ids[next_source_index(spawn)];
   }
 

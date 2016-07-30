@@ -35,7 +35,9 @@ var Creeps = {
     return Creeps.in_role(room, role).length;
   },
 
-  in_role: function(room, role){ Creeps.in_room_in_role(room, role); },
+  in_role: function(room, role){
+    return Creeps.in_room_in_role(room, role); 
+  },
 
   in_room_in_role: function(room, role){
     fail_early.on(
