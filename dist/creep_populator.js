@@ -23,7 +23,7 @@ module.exports = (function(){
       { role: 'harvester', count: 10 },
       { role: 'builder', count: 1 },
       { role: 'harvester', count: 12 },
-      { role: 'builder', count: 2 },
+      { role: 'builder', count: 3 },
       { role: 'upgrader', count : 1 },
       // { role: 'harvester', count: 2 },
       { role: 'upgrader', count : 2 },

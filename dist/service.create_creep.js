@@ -28,13 +28,13 @@ module.exports = (function(){
     );
 
 
-    if(typeof(result) == 'string'){
-      var creep = Game.creeps[result];
-      console.log('creep.memory == ', creep.memory);
-      console.log(
-        'created_creep with source_id: '+creep.memory.source_id
-      );
-    }
+    // if(typeof(result) == 'string'){
+    //   var creep = Game.creeps[result];
+    //   console.log('creep.memory == ', creep.memory);
+    //   console.log(
+    //     'created_creep with source_id: '+creep.memory.source_id
+    //   );
+    // }
 
     return result;
   }

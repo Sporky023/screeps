@@ -34,9 +34,6 @@ var Quotas = (function(){
       }
     );
 
-    console.log('Quotas.source_to_harvester_count / output',
-      JSON.stringify(output));
-
     return output;
   }
 

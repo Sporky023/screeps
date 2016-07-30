@@ -11,10 +11,10 @@ var Structures = require('structures');
 var Construction = (function(){
   var pub = {};
 
-  var min_road_sites = 2;
-  var max_road_sites = 4;
+  var min_road_sites = 1;
+  var max_road_sites = 2;
 
-  pub.plan = function plan(room){
+  function plan_road(room){
     if( should_build_roads(room) ){
       make_road_for_every_creep(room);
     }
@@ -23,7 +23,22 @@ var Construction = (function(){
     if( too_many_road_sites(room) ){
       destroy_a_road_site(room);
     }
+  }
 
+  function building_roads(room){
+    if(room.controller.level >= 2){
+      if(Structures.by_type(room, 'extension').length < 5){
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  pub.plan = function plan(room){
+    if(building_roads(room)){
+      plan_road(room);
+    }
     var quota = Quotas.extensions(room);
     var quota_fulfiller = ConstructionFulfillment.fulfill(room, quota);
 

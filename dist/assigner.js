@@ -39,16 +39,12 @@ module.exports = (function(){
   }
 
   output.next_source_id2 = function next_source_id2(spawn){
-    // expect_class(spawn, Spawn, 'Assigner.next_source_id2');
-
     var quota_to_fill = next_unfilled_quota(spawn);
     var output;
 
     if(typeof(quota_to_fill) == 'object'){
       output = quota_to_fill.source_id;
     }
-
-    console.log('Assigner.next_source_id2 / output = '+output);
 
     return output;
   }
@@ -57,8 +53,6 @@ module.exports = (function(){
     expect_class(spawn, Spawn);
 
     var source_quotas = Quotas.source_to_harvester_count(spawn)
-
-    // console.log('source_quotas', JSON.stringify(source_quotas));
 
     for(var quota of source_quotas){
       if(quota_unmet(spawn, quota) ){
@@ -94,7 +88,7 @@ module.exports = (function(){
 
     var source_ids = map(sources, 'id');
     var output = source_ids[next_source_index(spawn)];
-    console.log('Assigner.next_source_id2 / output = '+ output);
+    // console.log('Assigner.next_source_id2 / output = '+ output);
     return source_ids[next_source_index(spawn)];
   }
 
