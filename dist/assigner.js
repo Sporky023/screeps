@@ -88,7 +88,6 @@ module.exports = (function(){
 
     var source_ids = map(sources, 'id');
     var output = source_ids[next_source_index(spawn)];
-    // console.log('Assigner.next_source_id2 / output = '+ output);
     return source_ids[next_source_index(spawn)];
   }
 

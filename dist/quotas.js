@@ -38,7 +38,7 @@ var Quotas = (function(){
   }
 
   function distance_to_harvester_quota(distance){
-    return (distance / 5) + 2;
+    return (distance / 5) + 1;
   }
 
   function sources_for_quotas(spawn){
@@ -47,7 +47,6 @@ var Quotas = (function(){
 
       function(sourceA, sourceB){
         if(sourceB == undefined){ return true }
-        debugger;
 
         return(
           distance_between(sourceA.pos, spawn.pos) <

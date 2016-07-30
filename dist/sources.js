@@ -7,6 +7,31 @@ var Sources = (function(){
 
   var output = {};
 
+  output.closest_to_creep = function closest_to_creep(creep){
+    var output = creep.pos.findClosestByPath(FIND_SOURCES);
+
+    if( output == undefined || output == null ) {
+      output = output.closest_to_creep_crow(creep);
+    }
+
+    return output;
+  }
+
+  function closest_to_creep_crow(creep){
+    return sort_by(
+      creep.room.find(FIND_SOURCES),
+
+      function(sourceA, sourceB){
+        if(sourceB == undefined){ return true; }
+
+        return(
+          distance_between(sourceA.pos, creep.pos) >
+          distance_between(sourceB.pos, creep.pos)
+        );
+      }
+    );
+  }
+
   function all(room){
     var sources = sources_by_room[room.name];
 
@@ -55,6 +80,7 @@ var Sources = (function(){
   }
 
   return output;
-})();
+}
+    )();
 
 module.exports = Sources;

@@ -21,8 +21,11 @@ module.exports = (function(){
       role: role, source_id: Assigner.next_source_id2(spawn)
     };
 
+    var body_parts = body_parts_for_budget(spawn.room.energyCapacityAvailable);
+    // console.log('body_parts', JSON.stringify(body_parts));
+
     var result = spawn.createCreep(
-      [WORK, CARRY, MOVE],
+      body_parts,
       role+'-'+autoincrement(),
       mem
     );
@@ -37,6 +40,21 @@ module.exports = (function(){
     // }
 
     return result;
+  }
+
+  var body_parts_for_budget = function body_parts_for_budget(energyCapacity){
+    var thresholds = {
+      300: [WORK, CARRY, CARRY, MOVE, MOVE],
+      350: [WORK, CARRY, CARRY, MOVE, MOVE, MOVE],
+      400: [WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE],
+      500: [WORK, WORK, CARRY, CARRY, CARRY,  MOVE, MOVE, MOVE],
+      550: [WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE],
+      600: [WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE]
+    }
+
+    var output = thresholds[energyCapacity];
+    if(!output){ output = thresholds[600]; }
+    return output;
   }
 
   return output;

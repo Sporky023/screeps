@@ -1,8 +1,13 @@
 var distance_between = require('distance_between');
+var map = require('map');
+var select = require('select');
 var fail_early = require('fail_early');
 var each = require('each');
+var sort_by_closest = require('sort_by_closest');
 var HarvestActions = require('actions.harvest');
 var Sources = require('sources');
+var Structures = require('structures');
+var is_blank = require('is_blank');
 
 var roleHarvester = {
   run: function(creep){
@@ -20,7 +25,7 @@ var roleHarvester = {
     if(
       creep.carry.energy == creep.carryCapacity &&
       creep.memory.mode != 'make space' &&
-      spawn.energy >= spawn.energyCapacity
+      creep.room.availableEnergy >= creep.room.energyCapacityAvailable
     ){
       creep.say('make space');
       creep.memory.mode = 'make space';
@@ -67,30 +72,40 @@ function deliverEnergy(creep){
 
   var structures = creep.room.find(FIND_MY_STRUCTURES);
 
-  var targets = [];
-  each(structures, function(s){
+  var spawns = Structures.of_type(creep.room, 'spawn');
+  var extensions = Structures.of_type(creep.room, 'extension');
+
+  var targets = spawns.concat(extensions);
+  var targets = select( targets, function(target){
+    return target.energy < target.energyCapacity;
+  });
+
+  var targets_expanded = map( targets, function(target){
+    return {
+      target: target,
+      distance: distance_between(target.pos, creep.pos)
+    };
+  } );
+
+  var closest_expanded = null;
+  each( targets_expanded, function(target_expanded){
     if(
-      s.structureType == STRUCTURE_SPAWN ||
-      s.structureType == STRUCTURE_EXTENSION
+      closest_expanded == null ||
+      target_expanded.distance < closest_expanded.distance
     ){
 
-      targets.push(s);
+      closest_expanded = target_expanded;
     }
-  });
-  
-  // , function(structure){
-  //   return(
-  //     structure.structureType == STRUCTURE_EXTENSION ||
-  //     structure.structureType == STRUCTURE_SPAWN &&
-  //     structure.energyAvailable < structure.energyCapacity
-  //   );
-  // });
+  } );
 
+  if(targets.length > 0){
+    var closest_target = closest_expanded.target;
+  }
 
-  if(targets[0]){
-    approachAndTransferEnergy(creep, targets[0]);
+  if(!is_blank(closest_target) ){
+    approachAndTransferEnergy(creep, closest_target);
   } else {
-    moveTo(creep.room.controller);
+    creep.moveTo(creep.room.controller);
   }
 }
 

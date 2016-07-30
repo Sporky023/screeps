@@ -18,7 +18,7 @@ var roleBuilder = {
 
     if(creep.memory.mode == 'energy-full'){
       var target = best_target(creep.room);
-      var target = creep.pos.findClosestByRange(FIND_CONSTRUCTION_SITES);
+      // var target = creep.pos.findClosestByRange(FIND_CONSTRUCTION_SITES);
 
       if(target){
         approachAndBuild(creep, target);
@@ -33,10 +33,6 @@ function best_target(room){
     { structuretype: 'road', quota: 10 },
     { structuretype: 'road', quota: 100 },
   ];
-
-  // for(item of checklist){
-  //   if( !fulfilled(room, item) && ready_to_fulfill(room, item) )
-  // }
 
   for(var item of checklist){
     if( !fulfilled(room, item) && ready_to_fulfill(room, item) ){
